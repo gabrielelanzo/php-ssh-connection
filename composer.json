@@ -1,5 +1,5 @@
 {
-    "name": "divineomega/php-ssh-connection",
+    "name": "gabrielelanzo/php-ssh-connection",
     "description": "Provides an elegant syntax to connect to SSH servers and execute commands.",
     "type": "library",
     "license": "LGPL-3.0-only",
@@ -7,6 +7,10 @@
         {
             "name": "Jordan Hall",
             "email": "jordan@hall05.co.uk"
+        },
+        {
+            "name": "Gabriele Lanzo",
+            "email": "gabrielelanzo@gmail.com"
         }
     ],
     "require": {
