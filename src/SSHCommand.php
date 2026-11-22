@@ -2,18 +2,16 @@
 
 namespace DivineOmega\SSHConnection;
 
-use phpseclib\Net\SSH2;
-use RuntimeException;
+use phpseclib3\Net\SSH2;
 
 class SSHCommand
 {
-    const EXECUTION_TIMEOUT_SECONDS = 30;
-    const STREAM_BYTES_PER_READ = 4096;
+    public const EXECUTION_TIMEOUT_SECONDS = 30;
 
-    private $ssh;
-    private $command;
-    private $output;
-    private $error;
+    private SSH2 $ssh;
+    private string $command;
+    private string|false $output;
+    private string $error;
 
     public function __construct(SSH2 $ssh, string $command)
     {
@@ -23,15 +21,21 @@ class SSHCommand
         $this->execute();
     }
 
-    private function execute()
+    private function execute(): void
     {
         $this->ssh->enableQuietMode();
+        $this->ssh->setTimeout(self::EXECUTION_TIMEOUT_SECONDS);
+
         $this->output = $this->ssh->exec($this->command);
         $this->error = $this->ssh->getStdError();
     }
 
     public function getRawOutput(): string
     {
+        if ($this->output === false) {
+            throw new \RuntimeException('SSH command execution failed.');
+        }
+
         return $this->output;
     }
 
